@@ -23,7 +23,7 @@ struct CardView: View {
             base.fill().opacity(isHiden ? 0 : 1)
         }
         .onTapGesture(perform: {
-            isFaceUp.toggle()
+            isHiden.toggle()
         })
         
 
@@ -31,5 +31,5 @@ struct CardView: View {
 }
 
 #Preview {
-    CardView()
+    CardView(content: "")
 }
