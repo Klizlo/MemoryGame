@@ -9,9 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State var emojis = ThemeButton.themeIcon1
-    
-    @State var themeColor = Color.blue
+    @ObservedObject var viewModel: MemoGameViewModel
 
     var body: some View {
         VStack {
@@ -28,16 +26,22 @@ struct ContentView: View {
             themeButtons
         }
         .padding()
-        .foregroundColor(themeColor)
+        .foregroundColor(viewModel.themeColor)
     }
 
     var cards : some View {
-        LazyVGrid(columns: 
-        [GridItem(.adaptive(minimum: 80))]){
-            ForEach(emojis.indices, id: \.self){
-                index in CardView(content: emojis[index])
+        LazyVGrid(columns:
+                    [GridItem(.adaptive(minimum: 85), spacing: 0)], spacing: 0){
+            ForEach(viewModel.cards){
+                card in CardView(card: card)
+                    .aspectRatio(2/3, contentMode: .fit)
+                    .padding(4)
+                    .onTapGesture {
+                        viewModel.choose(card)
+                    }
+
             }
-            .aspectRatio(2/3, contentMode: .fit)
+            
         }
     }
 
@@ -62,16 +66,16 @@ struct ContentView: View {
     
     var themeButtons : some View {
         HStack{
-            ThemeButton(icon: "☺︎", text: "Motyw 1", color: Color.blue, themeColor: $themeColor, emojis: $emojis)
+            ThemeButton(icon: "smiley.fill", text: "Motyw 1", color: Color.blue)
             Spacer()
-            ThemeButton(icon: "☠︎", text: "Motyw 2", color: Color.red, themeColor: $themeColor, emojis: $emojis)
+            ThemeButton(icon: "shuffle.circle", text: "Motyw 2", color: Color.red)
             Spacer()
-            ThemeButton(icon: "♼", text: "Motyw 3", color: Color.green, themeColor: $themeColor, emojis: $emojis)
+            ThemeButton(icon: "pawprint.circle", text: "Motyw 3", color: Color.green)
         }
         
     }
 }
 
 #Preview {
-    ContentView()
+    ContentView(viewModel: MemoGameViewModel())
 }

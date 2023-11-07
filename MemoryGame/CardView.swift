@@ -8,28 +8,30 @@
 import SwiftUI
 
 struct CardView: View {
-    let content: String
-    @State var isHiden = true
+    typealias Card = MemoGameModel<String>.Card
+    
+    let card: Card
+    
+    init(card: Card) {
+        self.card = card
+    }
+    
     var body: some View {
         ZStack{
             let base = RoundedRectangle(cornerRadius: 12)
             Group{
                 base.fill(.white)
                 base.strokeBorder(lineWidth: 2)
-                Text(content).font(.largeTitle)
+                Text(card.content)
+                    .font(.system(size: 200))
+                    .minimumScaleFactor(0.01)
+                    .aspectRatio(contentMode: .fit)
             }
-            .opacity(isHiden ? 1 : 0)
+            .opacity(card.isFaceUp ? 1 : 0)
             
-            base.fill().opacity(isHiden ? 0 : 1)
+            base.fill().opacity(card.isFaceUp ? 0 : 1)
         }
-        .onTapGesture(perform: {
-            isHiden.toggle()
-        })
         
 
     }
-}
-
-#Preview {
-    CardView(content: "")
 }

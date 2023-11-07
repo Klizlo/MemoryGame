@@ -18,24 +18,13 @@ struct ThemeButton: View {
     var icon: String
     var text: String
     var color: Color
-    @Binding var themeColor: Color
-    @Binding var emojis: Array<String>
     
     var body: some View {
         Button(action: {
-            themeColor = color
-            switch color {
-            case Color.blue:
-                emojis = ThemeButton.themeIcon1.shuffled()
-            case Color.red:
-                emojis = ThemeButton.themeIcon2.shuffled()
-            default:
-                emojis = ThemeButton.themeIcon3.shuffled()
-            }
             
         }){
             VStack{
-                Text(icon)
+                Text(.init(systemName: icon))
                     .font(.largeTitle)
                 Text(text)
             }
@@ -44,5 +33,5 @@ struct ThemeButton: View {
 }
 
 #Preview {
-    ThemeButton(icon: "⚰︎", text: "Grave", color: Color.red, themeColor: .constant(Color.red), emojis: .constant([""]))
+    ThemeButton(icon: "pencil.circle", text: "Pencil", color: Color.red)
 }
