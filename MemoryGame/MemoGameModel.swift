@@ -27,6 +27,10 @@ struct MemoGameModel<CardContent> where CardContent : Equatable {
         }
     }
     
+    mutating func shuffle() {
+        cards.shuffle()
+    }
+    
     struct Card : Equatable, Identifiable {
         var isFaceUp: Bool = false
         var isMatched: Bool = false

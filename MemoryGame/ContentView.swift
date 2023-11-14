@@ -17,12 +17,9 @@ struct ContentView: View {
                 .font(.largeTitle)
             ScrollView{
                 cards
+                    .animation(.default, value: viewModel.cards)
             }
-//            HStack {
-//                cardAdder
-//                Spacer()
-//                cardRemover
-//            }
+            shuffleButton
             themeButtons
         }
         .padding()
@@ -44,33 +41,25 @@ struct ContentView: View {
             
         }
     }
+    
+    var shuffleButton : some View {
+        Button(action: {
+            viewModel.shuffle()
+        }, label: {
+            Text("SHUFFLE")
+                .font(.title)
+                .padding()
+        })
 
-//    func adjustCardNumber(by_offset: Int, symbol: String) -> some View {
-//        Button(symbol){
-//            if(cardNumber + by_offset <= emojis.count && cardNumber + by_offset >= 2){
-//                cardNumber += by_offset
-//            }
-//        }
-//        .font(.largeTitle)
-//        .frame(width: 75)
-//        .border(.blue, width: 2)
-//    }
-
-//    var cardAdder : some View {
-//        adjustCardNumber(by_offset: 2, symbol: "+")
-//    }
-//    
-//    var cardRemover  : some View {
-//        adjustCardNumber(by_offset: -2, symbol: "-")
-//    }
+    }
     
     var themeButtons : some View {
         HStack{
-            ThemeButton(icon: "smiley.fill", text: "Motyw 1", color: Color.blue)
+            ThemeButton(viewModel: viewModel, icon: "smiley.fill", text: "Motyw 1", color: Color.blue)
             Spacer()
-            ThemeButton(icon: "shuffle.circle", text: "Motyw 2", color: Color.red)
+            ThemeButton(viewModel: viewModel, icon: "shuffle.circle", text: "Motyw 2", color: Color.red)
             Spacer()
-            ThemeButton(icon: "pawprint.circle", text: "Motyw 3", color: Color.green)
+            ThemeButton(viewModel: viewModel, icon: "pawprint.circle", text: "Motyw 3", color: Color.green)
         }
         
     }

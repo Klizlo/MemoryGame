@@ -14,6 +14,10 @@ class MemoGameViewModel : ObservableObject{
     
     private static var emojis = ["😀", "😠", "😆", "🥺", "🥲", "😭", "😱", "😧", "🙄"]
     
+    private var theme1 = ["😀", "😠", "😆", "🥺", "🥲", "😭", "😱", "😧", "🙄"]
+    private var theme2 = ["😈", "👻", "💀", "🎃", "😈", "👻", "💀", "🎃", "🧟‍♀️", "🧛🏻‍♂️", "🧙🏻‍♂️", "🦇", "🧟‍♀️", "🧛🏻‍♂️", "🧙🏻‍♂️"]
+    private var theme3 = ["🐭", "🦊", "🦄", "🐸", "🐭", "🦊", "🦄", "🐸", "🐺", "🐬", "🐢", "🦧", "🐺", "🐬", "🐢", "🦧"]
+    
     @Published private var model : MemoGameModel<String> = createGame()
     
     private static func createGame() -> MemoGameModel<String> {
@@ -34,10 +38,21 @@ class MemoGameViewModel : ObservableObject{
         model.choose(card)
     }
     
-    var themeColor = Color.blue
+    func shuffle() {
+        model.shuffle()
+    }
+    
+    @Published var themeColor = Color.blue
     
     func changeThemeColor(color: Color) {
         themeColor = color
+        switch color {
+            case .red: MemoGameViewModel.emojis = theme2
+            case .green: MemoGameViewModel.emojis = theme3
+            default: MemoGameViewModel.emojis = theme1
+        }
+        
+        model = MemoGameViewModel.createGame()
     }
     
 }

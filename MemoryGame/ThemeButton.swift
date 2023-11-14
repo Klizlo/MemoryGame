@@ -9,11 +9,7 @@ import SwiftUI
 
 struct ThemeButton: View {
     
-    static var themeIcon1 = ["😂", "🥸", "🤪", "😠", "😂", "🥸", "🤪", "😠"]
-    
-    static var themeIcon2 = ["😈", "👻", "💀", "🎃", "😈", "👻", "💀", "🎃", "🧟‍♀️", "🧛🏻‍♂️", "🧙🏻‍♂️", "🦇", "🧟‍♀️", "🧛🏻‍♂️", "🧙🏻‍♂️", "🦇"]
-    
-    static var themeIcon3 = ["🐭", "🦊", "🦄", "🐸", "🐭", "🦊", "🦄", "🐸", "🐺", "🐬", "🐢", "🦧", "🐺", "🐬", "🐢", "🦧"]
+    @ObservedObject var viewModel : MemoGameViewModel
     
     var icon: String
     var text: String
@@ -21,7 +17,7 @@ struct ThemeButton: View {
     
     var body: some View {
         Button(action: {
-            
+            viewModel.changeThemeColor(color: color)
         }){
             VStack{
                 Text(.init(systemName: icon))
@@ -33,5 +29,5 @@ struct ThemeButton: View {
 }
 
 #Preview {
-    ThemeButton(icon: "pencil.circle", text: "Pencil", color: Color.red)
+    ThemeButton(viewModel: MemoGameViewModel(), icon: "pencil.circle", text: "Pencil", color: Color.red)
 }
