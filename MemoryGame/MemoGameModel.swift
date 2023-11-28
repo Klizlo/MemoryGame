@@ -21,10 +21,35 @@ struct MemoGameModel<CardContent> where CardContent : Equatable {
         }
     }
     
+    var  indexOfOneAndOnlyFaceUpCard: Int? {
+        get { cards.indices.filter { index in cards[index].isFaceUp }.only }
+        
+        set { cards.indices.forEach { cards[$0].isFaceUp = (newValue == $0) } }
+    }
+    
     mutating func choose(_ card: Card) {
-        if let cardIndex = cards.firstIndex(where: {$0.id == card.id}) {
-            cards[cardIndex].isFaceUp.toggle()
+        if let chosenIndex = index(of: card) {
+            if !cards[chosenIndex].isFaceUp && !cards[chosenIndex].isMatched {
+                if let potentialMatchedIndex = indexOfOneAndOnlyFaceUpCard {
+                    if cards[chosenIndex].content == cards[potentialMatchedIndex].content {
+                        cards[chosenIndex].isMatched = true
+                        cards[potentialMatchedIndex].isMatched = true
+                    }
+                } else {
+                    indexOfOneAndOnlyFaceUpCard = chosenIndex
+                }
+                cards[chosenIndex].isFaceUp = true
+            }
         }
+    }
+    
+    private func index(of card: Card) -> Int? {
+        for index in cards.indices {
+            if cards[index].id == card.id {
+                return index
+            }
+        }
+        return nil
     }
     
     mutating func shuffle() {
@@ -38,4 +63,13 @@ struct MemoGameModel<CardContent> where CardContent : Equatable {
         
         var id: String
     }
+}
+
+
+extension Array {
+
+    var only: Element? {
+        count == 1 ? first : nil
+    }
+
 }
